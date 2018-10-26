@@ -22,6 +22,8 @@ object NetworkWordCountStateful {
     val words = lines.flatMap(_.split(" "))
     val wordDstream = words.map(word => (word,1))
     val stateDStream = wordDstream.updateStateByKey[Int](updataFunc)
+    //保存到本地磁盘
+    stateDStream.saveAsTextFiles("E:\\myproject\\data\\output\\wordcount.txt")
     stateDStream.print()
     sc.start()
     sc.awaitTermination()
